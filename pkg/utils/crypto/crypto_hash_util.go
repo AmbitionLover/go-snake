@@ -8,8 +8,9 @@ package crypto
 
 import (
 	"crypto"
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
-	hashEncrypt "github.com/AmbitionLover/go-snake/pkg/model/crypto"
 	"hash"
 	"strings"
 )
@@ -30,6 +31,8 @@ func MatchHash(hashName string) (h hash.Hash, err error) {
 	return nil, fmt.Errorf("hash error by name : %s", hashName)
 }
 
-func Sum(r hashEncrypt.HashEncrypt) {
-
+func MD5V(str []byte, b ...byte) string {
+	h := md5.New()
+	h.Write(str)
+	return hex.EncodeToString(h.Sum(b))
 }
