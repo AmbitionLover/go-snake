@@ -5,6 +5,7 @@ package tools
 @Author [Ambi](https://github.com/AmbitionLover)
 
 */
+
 type RouterGroup struct {
 	Cryptography CryptographyRouter
 }

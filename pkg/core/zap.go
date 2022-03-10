@@ -39,11 +39,11 @@ func Zap() (logger *zap.Logger) {
 		getEncoderCore(fmt.Sprintf("./%s/server_warn.log", global.CONFIG.Zap.Director), warnPriority),
 		getEncoderCore(fmt.Sprintf("./%s/server_error.log", global.CONFIG.Zap.Director), errorPriority),
 	}
-	logger = zap.New(zapcore.NewTee(cores[:]...), zap.AddCaller())
-
+	logger = zap.New(zapcore.NewTee(cores[:]...))
 	if global.CONFIG.Zap.ShowLine {
 		logger = logger.WithOptions(zap.AddCaller())
 	}
+	defer logger.Sync() // flushes buffer, if any
 	return logger
 }
 
@@ -51,13 +51,12 @@ func Zap() (logger *zap.Logger) {
 func getEncoderConfig() (config zapcore.EncoderConfig) {
 	config = zapcore.EncoderConfig{
 		MessageKey:     "message",
-		LevelKey:       "level",
+		LevelKey:       "l",
 		TimeKey:        "time",
 		NameKey:        "logger",
 		CallerKey:      "caller",
 		StacktraceKey:  global.CONFIG.Zap.StacktraceKey,
 		LineEnding:     zapcore.DefaultLineEnding,
-		EncodeLevel:    zapcore.LowercaseLevelEncoder,
 		EncodeTime:     CustomTimeEncoder,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.FullCallerEncoder,

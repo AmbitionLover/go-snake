@@ -11,14 +11,14 @@ import (
 密码学研究
 */
 
-
 type CryptographyRouter struct{}
 
 func (s *CryptographyRouter) InitPortalUserRouter(r *gin.RouterGroup) {
 	apiRouter := r.Group("crypto")
 	apiRouterApi := v1.ApiGroupApp.ToolsGroup.Cryptography
 	{
-		apiRouter.POST("md5", apiRouterApi.Encrypt)      //发送请求
-		apiRouter.POST("hash", apiRouterApi.HashEncrypt) //发送请求
+		apiRouter.POST("md5", apiRouterApi.Encrypt)          //发送请求
+		apiRouter.POST("hash", apiRouterApi.HashEncrypt)     //发送请求
+		apiRouter.POST("qys/userDe", apiRouterApi.QysUserDe) //发送请求
 	}
 }
